@@ -30,6 +30,7 @@
 
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item">Judul = <?= $b->judul_buku; ?></li>
+                                <li class="list-group-item">Kategori = <?= $b->nama_kategori; ?></li>
                                 <li class="list-group-item">Pengarang = <?= $b->pengarang; ?></li>
                                 <li class="list-group-item">Tahun Terbit = <?= $b->thn_terbit; ?></li>
                                 <li class="list-group-item">ISBN = <?= $b->isbn; ?></li>
