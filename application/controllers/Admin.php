@@ -276,7 +276,6 @@ class Admin extends CI_Controller
     $alamat         = $this->input->post('alamat', true);
     $email          = $this->input->post('email', true);
     $password       = $this->input->post('password', true);
-    var_dump($nama_anggota);
 
     $this->form_validation->set_rules('nama_anggota', 'Nama Anggota', 'required|min_length[3]|trim');
     $this->form_validation->set_rules('gender', 'Gender', 'required|trim');
@@ -328,86 +327,41 @@ class Admin extends CI_Controller
 
   function update_anggota()
   {
-    $data['title'] = 'Proses..';
-    $id            = $this->input->post('id');
-    $id_kategori   = $this->input->post('id_kategori');
-    $judul         = $this->input->post('judul_buku');
-    $pengarang     = $this->input->post('pengarang');
-    $penerbit      = $this->input->post('penerbit');
-    $thn_terbit    = $this->input->post('thn_terbit');
-    $isbn          = $this->input->post('isbn');
-    $jumlah_buku   = $this->input->post('jumlah_buku');
-    $lokasi        = $this->input->post('lokasi');
-    $status        = $this->input->post('status');
-    $imageOld      = $this->input->post('old_pict');
+    $data['title']  = 'Proses..';
+    $id_anggota     = $this->input->post('id_anggota');
+    $nama_anggota   = $this->input->post('nama_anggota');
+    $gender         = $this->input->post('gender');
+    $no_telp        = $this->input->post('no_telp');
+    $alamat         = $this->input->post('alamat');
+    $email          = $this->input->post('email');
 
-    $this->form_validation->set_rules('id_kategori', 'ID Kategori', 'required');
-    $this->form_validation->set_rules('judul_buku', 'Judul Buku', 'required|min_length[2]');
-    $this->form_validation->set_rules('pengarang', 'Pengarang', 'required|min_length[2]');
-    $this->form_validation->set_rules('penerbit', 'Penerbit', 'required|min_length[2]');
-    $this->form_validation->set_rules('thn_terbit', 'Tahun Terbit', 'required|min_length[2]');
-    $this->form_validation->set_rules('isbn', 'Nomor ISBN', 'required|numeric');
-    $this->form_validation->set_rules('jumlah_buku', 'Jumlah Buku', 'required|numeric');
-    $this->form_validation->set_rules('lokasi', 'Lokasi', 'required|min_length[2]');
-    $this->form_validation->set_rules('status', 'Status Buku', 'required');
+    $this->form_validation->set_rules('id_anggota', 'ID Anggota', 'required');
+    $this->form_validation->set_rules('nama_anggota', 'Nama Anggota', 'required|trim|min_length[2]');
+    $this->form_validation->set_rules('gender', 'Gender', 'required');
+    $this->form_validation->set_rules('no_telp', 'No Telp', 'required|trim');
+    $this->form_validation->set_rules('alamat', 'Alamat', 'required|trim');
+    $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email');
 
     if ($this->form_validation->run() != false) {
-      $config['upload_path'] = './assets/upload/';
-      $config['allowed_types'] = 'jpg|png|jpeg';
-      $config['max_size'] = '2048';
-      $config['file_name'] = 'gambar' . time();
 
-      $this->load->library('upload', $config);
+      $where = array('id_anggota' => $id_anggota);
+      $data = array(
+        'nama_anggota'  => htmlspecialchars($nama_anggota),
+        'gender'        => $gender,
+        'no_telp'       => $no_telp,
+        'alamat'        => $alamat,
+        'email'         => $email,
+      );
 
-      if ($this->upload->do_upload('foto')) {
-        $image = $this->upload->data();
-        unlink('assets/upload/' . $this->input->post('old_pict', TRUE));
-        $data['gambar'] = $image['file_name'];
-
-        $where = array('id_buku' => $id);
-        $data = array(
-          'id_kategori'   => $id_kategori,
-          'judul_buku'    => $judul,
-          'pengarang'     => $pengarang,
-          'penerbit'      => $penerbit,
-          'thn_terbit'    => $thn_terbit,
-          'isbn'          => $isbn,
-          'jumlah_buku'   => $jumlah_buku,
-          'lokasi'        => $lokasi,
-          'gambar'        => $image['file_name'],
-          'status_buku'   => $status
-        );
-
-        $this->M_perpus->update_data('buku', $data, $where);
-      } else {
-
-        $where = array('id_buku' => $id);
-        $data = array(
-          'id_kategori'   => $id_kategori,
-          'judul_buku'    => $judul,
-          'pengarang'     => $pengarang,
-          'penerbit'      => $penerbit,
-          'thn_terbit'    => $thn_terbit,
-          'isbn'          => $isbn,
-          'jumlah_buku'   => $jumlah_buku,
-          'lokasi'        => $lokasi,
-          'gambar'        => $imageOld,
-          'status_buku'   => $status
-        );
-
-        $this->M_perpus->update_data('buku', $data, $where);
-      }
-
-      $this->M_perpus->update_data('buku', $data, $where);
-
-      $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Buku ' . $judul . ' berhasil diperbaharui!</div>');
-      redirect('admin/buku');
+      $this->M_perpus->update_data('anggota', $data, $where);
+      $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Anggota ' . $nama_anggota . ' berhasil diperbaharui!</div>');
+      redirect('admin/anggota');
     } else {
-      $where = array('id_buku' => $id);
-      $data['buku'] = $this->db->query("select * from buku b, kategori k where b.id_kategori=k.id_kategori and b.id_buku='$id'")->result();
-      $data['kategori'] = $this->M_perpus->get_data('kategori')->result();
+      $where = array('id_anggota' => $id_anggota);
+      $data['anggota'] = $this->db->query("SELECT * FROM anggota where id_anggota='$id_anggota'")->result();
+      // $data['kategori'] = $this->M_perpus->get_data('kategori')->result();
       $this->load->view('admin/header', $data);
-      $this->load->view('admin/editbuku', $data);
+      $this->load->view('admin/editanggota', $data);
       $this->load->view('admin/footer');
     }
   }
