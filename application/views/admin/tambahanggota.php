@@ -9,7 +9,7 @@
         echo $this->session->flashdata('alert');
         echo "</div>";
     } ?>
-    <form action="<?= base_url('admin/tambah_anggota_act'); ?>" method="post" enctype="multipart/form-data">
+    <form action="<?= base_url('admin/proses_tambah_anggota'); ?>" method="post" enctype="multipart/form-data">
 
         <div class="form-group">
             <label>Nama Anggota</label>

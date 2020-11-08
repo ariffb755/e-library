@@ -267,7 +267,7 @@ class Admin extends CI_Controller
     $this->load->view('admin/footer');
   }
 
-  function tambah_anggota_act()
+  function proses_tambah_anggota()
   {
     $data['title']  = 'Proses..';
     $nama_anggota   = $this->input->post('nama_anggota', true);
