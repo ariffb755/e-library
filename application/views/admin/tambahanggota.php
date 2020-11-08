@@ -3,7 +3,6 @@
     <div class="page-header">
         <h3>Anggota Baru</h3>
     </div>
-    <?= validation_errors('<p style="color:red;">', '</p>'); ?>
     <?php
     if ($this->session->flashdata()) {
         echo "<div class='alert alert-danger alert-message'>";
@@ -15,7 +14,7 @@
         <div class="form-group">
             <label>Nama Anggota</label>
             <input type="text" name="nama_anggota" id="nama_anggota" class="form-control">
-            <?= form_error('nama_anggota'); ?>
+            <?= form_error('nama_anggota', '<p style="color:red;">', '</p>'); ?>
         </div>
 
         <div class="form-group">
@@ -23,32 +22,32 @@
             <select name="gender" id="gender" class="form-control">
                 <option value="Laki-Laki">Laki-Laki</option>
                 <option value="Perempuan">Perempuan</option>
-                <?= form_error('gender'); ?>
+                <?= form_error('gender', '<p style="color:red;">', '</p>'); ?>
             </select>
         </div>
 
         <div class="form-group">
             <label>No Telp</label>
             <input type="text" name="no_telp" id="no_telp" class="form-control">
-            <?= form_error('no_telp'); ?>
+            <?= form_error('no_telp', '<p style="color:red;">', '</p>'); ?>
         </div>
 
         <div class="form-group">
             <label>Alamat</label>
             <input type="text" name="alamat" id="alamat" class="form-control">
-            <?= form_error('alamat'); ?>
+            <?= form_error('alamat', '<p style="color:red;">', '</p>'); ?>
         </div>
 
         <div class="form-group">
             <label>Email</label>
             <input type="text" name="email" id="email" class="form-control">
-            <?= form_error('email'); ?>
+            <?= form_error('email', '<p style="color:red;">', '</p>'); ?>
         </div>
 
         <div class="form-group">
             <label>Password</label>
             <input type="password" name="password" id="password" class="form-control">
-            <?= form_error('password'); ?>
+            <?= form_error('password', '<p style="color:red;">', '</p>'); ?>
         </div>
 
         <div class="form-group">
